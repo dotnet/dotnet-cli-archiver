@@ -47,6 +47,7 @@ platformList.each { platform ->
 
     Utilities.setMachineAffinity(newJob, os, 'latest-or-auto')
     Utilities.standardJobSetup(newJob, project, isPR, "*/${branch}")
-    Utilities.addMSTestResults(newJob, '**/*.trx')
+    // skip tests check if no tests are found
+    Utilities.addMSTestResults(newJob, '**/*.trx', true)
     Utilities.addGithubPRTriggerForBranch(newJob, branch, "${os} ${architecture} ${configuration} Build")
 }
