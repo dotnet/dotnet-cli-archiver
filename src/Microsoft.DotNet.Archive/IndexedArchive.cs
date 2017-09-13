@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation and contributors. All rights reserved.
+// Copyright (c) .NET Foundation and contributors. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
@@ -18,7 +18,7 @@ namespace Microsoft.DotNet.Archive
         {
             public DestinationFileInfo(string destinationPath, string hash)
             {
-                DestinationPath = destinationPath;
+                DestinationPath = PathUtils.Normalize(destinationPath);
                 Hash = hash;
             }
 
@@ -30,9 +30,9 @@ namespace Microsoft.DotNet.Archive
         {
             public ArchiveSource(string sourceArchive, string sourceFile, string archivePath, string hash, long size)
             {
-                SourceArchive = sourceArchive;
-                SourceFile = sourceFile;
-                ArchivePath = archivePath;
+                SourceArchive = PathUtils.Normalize(sourceArchive);
+                SourceFile = PathUtils.Normalize(sourceFile);
+                ArchivePath = PathUtils.Normalize(archivePath);
                 Hash = hash;
                 Size = size;
             }
@@ -85,7 +85,7 @@ namespace Microsoft.DotNet.Archive
 
         public IndexedArchive()
         { }
-        
+
         private static Stream CreateTemporaryStream()
         {
             string temp = Path.GetTempPath();
@@ -246,7 +246,7 @@ namespace Microsoft.DotNet.Archive
                 using (var archiveStream = File.Create(DestinationPath))
                 using (var archive = new ZipArchive(archiveStream, ZipArchiveMode.Create))
                 {
-                    foreach(var zipSource in entries)
+                    foreach (var zipSource in entries)
                     {
                         var entry = archive.CreateEntry(zipSource.Item1, CompressionLevel.Optimal);
                         using (var entryStream = entry.Open())
@@ -400,9 +400,9 @@ namespace Microsoft.DotNet.Archive
             CheckDisposed();
             using (var fs = File.OpenRead(externalFile))
             {
-                string hash = GetHash(fs); 
+                string hash = GetHash(fs);
                 // $ prefix indicates that the file is not in the archive and path is relative to an external directory
-                _archiveFiles[hash] = new ArchiveSource(null, null, "$" + hash , hash, fs.Length);
+                _archiveFiles[hash] = new ArchiveSource(null, null, "$" + hash, hash, fs.Length);
                 _externalFiles[hash] = externalFile;
             }
         }
@@ -441,7 +441,7 @@ namespace Microsoft.DotNet.Archive
 
             using (var sourceArchive = new ZipArchive(File.OpenRead(sourceZipFile), ZipArchiveMode.Read))
             {
-                foreach(var entry in sourceArchive.Entries)
+                foreach (var entry in sourceArchive.Entries)
                 {
                     string hash = null;
                     long size = entry.Length;
