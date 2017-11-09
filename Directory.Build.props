@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the MIT license. See License.txt in the project root for full license information. -->
+<Project>
+
+  <!-- This file is imported by all projects at the beginning of the project files -->
+
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)build\NuGet.props"/>
+  <Import Project="$(MSBuildThisFileDirectory)build\Versions.props"/>
+
+  <PropertyGroup>
+    <RepoRoot>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)\'))</RepoRoot>
+    <RepoToolsetDir>$(NuGetPackageRoot)roslyntools.microsoft.repotoolset\$(RoslynToolsMicrosoftRepoToolsetVersion)\tools\</RepoToolsetDir>
+    <SignToolDataPath>$(RepoRoot)build\SignToolData.json</SignToolDataPath>
+    <VersionsPropsPath>$(RepoRoot)build\Versions.props</VersionsPropsPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <DOTNET_INSTALL_DIR Condition="'$(DOTNET_INSTALL_DIR)' == ''">$(RepoRoot)artifacts\.dotnet\$(DotNetCliVersion)\</DOTNET_INSTALL_DIR>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <RepositoryUrl>https://github.com/dotnet/dotnet-cli-archiver</RepositoryUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>
