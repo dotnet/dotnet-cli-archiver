@@ -1,27 +1,36 @@
-<Project DefaultTargets="BuildAll">
-  <Import Project="build.props" />
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the MIT license. See License.txt in the project root for full license information. -->
+<Project DefaultTargets="Build" TreatAsLocalProperty="SolutionPath">
 
-  <ItemGroup>
-    <SolutionFile Include="..\src\*.sln" />
-    <TestProject Include="..\src\**\*.Tests.csproj" />
-    <PackProject Include="..\src\**\*.csproj" Exclude="@(TestProject)" />
-  </ItemGroup>
+  <!--
+    Optional parameters:
+      SolutionPath     Path to the solution to build
+      Configuration    Build configuration: "Debug", "Release", etc.
+      CIBuild          "true" if building on CI server
+      Restore          "true" to restore toolset and solution
+      Build            "true" to build solution
+      Rebuild          "true" to rebuild solution
+      Deploy           "true" to deploy assets (e.g. VSIXes) built in this repo
+      Test             "true" to run tests
+      Sign             "true" to sign built binaries
+      Pack             "true" to build NuGet packages
+      Properties        List of properties to pass to each build phase ("Name=Value;Name=Value;...")
+  -->
 
-  <Target Name="BuildAll" DependsOnTargets="Restore;Build;Test;Pack" />
+  <PropertyGroup>
+    <SolutionPath Condition="'$(SolutionPath)' == ''">$(MSBuildThisFileDirectory)..\Microsoft.DotNet.Archive.sln</SolutionPath>
+  </PropertyGroup>
 
-  <Target Name="Restore">
-    <MSBuild Projects="@(SolutionFile)" Targets="Restore" Properties="_ForceSeparateEvaluationForRestore=true" />
-  </Target>
-  
+  <Import Project="..\Directory.Build.props" />
+
   <Target Name="Build">
-    <MSBuild Projects="@(SolutionFile)" Targets="Build" />
+    <MSBuild Projects="Toolset.proj" 
+             Targets="Restore"
+             Properties="BaseIntermediateOutputPath=$(MSBuildThisFileDirectory)..\artifacts\toolset\;ExcludeRestorePackageImports=true"
+             Condition="'$(Restore)' == 'true'"/>
+
+    <MSBuild Projects="$(RepoToolsetDir)Build.proj" 
+             Properties="SolutionPath=$(SolutionPath);Configuration=$(Configuration);CIBuild=$(CIBuild);Restore=$(Restore);Build=$(Build);Rebuild=$(Rebuild);Deploy=$(Deploy);Test=$(Test);Sign=$(Sign);Pack=$(Pack);Properties=$(Properties)" />
   </Target>
 
-  <Target Name="Test">
-    <MSBuild Projects="@(TestProject)" Targets="Test" />
-  </Target>
-
-  <Target Name="Pack">
-    <MSBuild Projects="@(PackProject)" Targets="Pack" Properties="NoBuild=true" />
-  </Target>
 </Project>
