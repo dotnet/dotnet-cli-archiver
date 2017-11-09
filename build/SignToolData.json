@@ -5,19 +5,7 @@
             "strongName": "MsSharedLib72",
             "values": [
                 "bin/Microsoft.DotNet.Archive/netstandard1.3/Microsoft.DotNet.Archive.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/cs/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/de/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/es/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/fr/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/it/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/ja/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/ko/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/pl/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/pt-BR/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/ru/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/tr/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/zh-Hans/Microsoft.DotNet.Archive.resources.dll",
-                "bin/Microsoft.DotNet.Archive/netstandard1.3/zh-Hant/Microsoft.DotNet.Archive.resources.dll",
+                "bin/Microsoft.DotNet.Archive/netstandard1.3/*/Microsoft.DotNet.Archive.resources.dll"
             ]
         }
     ]
