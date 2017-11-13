@@ -30,10 +30,10 @@ osList.each { os ->
 
             // Calculate the build command
             if (os == 'Windows_NT') {
-                buildCommand = ".\\build.cmd"
+                buildCommand = ".\\build\\cibuild.cmd -configuration $config"
             }
             else {
-                buildCommand = "./build.sh"
+                buildCommand = "./build.sh --configuration $config"
             }
 
             def newJob = job(Utilities.getFullJobName(project, jobName, isPR)) {
@@ -58,7 +58,6 @@ osList.each { os ->
             Utilities.setMachineAffinity(newJob, osBase, machineAffinity)
             Utilities.standardJobSetup(newJob, project, isPR, "*/${branch}")
             Utilities.addGithubPRTriggerForBranch(newJob, branch, "$os $architecture $config")
-            Utilities.addMSTestResults(newJob, '**/*.trx', true)
             Utilities.addArchival(newJob, archiveSettings)
         }
     }
