@@ -12,7 +12,7 @@ def isPR = true
 
 def osList = ['OSX10.12', 'Windows_NT']
 def architectureList = ['x64']
-def configList ['Release']
+def configList = ['Release']
 
 def static getBuildJobName(def configuration, def os, def architecture) {
     return configuration.toLowerCase() + '_' + os.toLowerCase() + '_' + architecture.toLowerCase()
