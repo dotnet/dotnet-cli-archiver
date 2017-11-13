@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the MIT license. See License.txt in the project root for full license information. -->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+  </PropertyGroup>
+
+  <!-- Repo Version Information -->
+  <PropertyGroup>
+    <VersionBase>0.2.0</VersionBase>
+    <PreReleaseVersionLabel>beta</PreReleaseVersionLabel>
+  </PropertyGroup>
+
+  <!-- Repo Toolset Features -->
+  <PropertyGroup>
+    <UsingToolMicrosoftNetCompilers>false</UsingToolMicrosoftNetCompilers>
+    <UsingToolVSSDK>true</UsingToolVSSDK>
+  </PropertyGroup>
+
+  <!-- Toolset Dependencies -->
+  <PropertyGroup>
+    <DotNetCliVersion>2.0.2-vspre-006963</DotNetCliVersion>
+    <MicrosoftDotNetBuildTasksFeedVersion>1.0.0-prerelease-01929-02</MicrosoftDotNetBuildTasksFeedVersion>
+    <RoslynToolsMicrosoftRepoToolsetVersion>1.0.0-alpha52</RoslynToolsMicrosoftRepoToolsetVersion>
+    <VSWhereVersion>2.2.7</VSWhereVersion>
+  </PropertyGroup>
+
+  <!-- Production Dependencies -->
+  <PropertyGroup>
+    <SystemLinqParallelVersion>4.0.1</SystemLinqParallelVersion>
+  </PropertyGroup>
+
+</Project>
