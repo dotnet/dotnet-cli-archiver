@@ -33,7 +33,7 @@ def static getBuildJobName(def configuration, def os, def architecture) {
                         }
                         else {
                             // Shell
-                            shell("./build.sh --configuration $config")
+                            shell("./build/cibuild.sh --configuration $config")
                         }
                     }
                 }
