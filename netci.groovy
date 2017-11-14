@@ -47,6 +47,7 @@ def static getBuildJobName(def configuration, def os, def architecture) {
                 Utilities.standardJobSetup(newJob, project, isPR, "*/${branch}")
                 Utilities.addGithubPRTriggerForBranch(newJob, branch, "$os $architecture $config")
                 Utilities.addArchival(newJob, archiveSettings)
+            }
         }
     }
 }
