@@ -16,7 +16,7 @@ def static getBuildJobName(def configuration, def os, def architecture) {
 ['OSX10.12', 'Ubuntu16.04', 'Windows_NT'].each { os ->
     ['x64'].each { architecture ->
         ['Debug', 'Release'].each { config ->
-            [true, false].each { isPR
+            [true, false].each { isPR ->
                 // Calculate job name
                 def jobName = getBuildJobName(config, os, architecture)
                 def buildCommand = '';
