@@ -3,15 +3,13 @@
 <Project>
 
   <PropertyGroup>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileDirectory)..\Directory.Build.props</MSBuildAllProjects>
   </PropertyGroup>
 
   <Import Project="..\Directory.Build.props" />
   <Import Project="$(RepoToolsetDir)Settings.props" />
 
   <PropertyGroup>
-    <DotNetRoot>$(DOTNET_INSTALL_DIR)</DotNetRoot>
-    <NoWarn>1701;1702;1705;$(NoWarn)</NoWarn>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 

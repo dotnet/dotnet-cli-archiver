@@ -2,12 +2,6 @@
 <!-- Copyright (c) .NET Foundation and contributors. All rights reserved. Licensed under the MIT license. See License.txt in the project root for full license information. -->
 <Project>
 
-  <!-- This file is imported by all projects at the beginning of the project files -->
-
-  <PropertyGroup>
-    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
-  </PropertyGroup>
-
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
   </PropertyGroup>
