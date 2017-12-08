@@ -38,14 +38,18 @@ def static getBuildJobName(def configuration, def os, def architecture) {
                     }
                 }
 
+                Utilities.setMachineAffinity(newJob, osBase, machineAffinity)
+                Utilities.standardJobSetup(newJob, project, isPR, "*/${branch}")
+
+                if (isPR) {
+                    Utilities.addGithubPRTriggerForBranch(newJob, branch, "$os $architecture $config")
+                }
+
                 def archiveSettings = new ArchivalSettings()
                 archiveSettings.addFiles("artifacts/$config/log/*")
                 archiveSettings.addFiles("artifacts/$config/TestResults/*")
                 archiveSettings.setFailIfNothingArchived()
                 archiveSettings.setArchiveOnFailure()
-                Utilities.setMachineAffinity(newJob, osBase, machineAffinity)
-                Utilities.standardJobSetup(newJob, project, isPR, "*/${branch}")
-                Utilities.addGithubPRTriggerForBranch(newJob, branch, "$os $architecture $config")
                 Utilities.addArchival(newJob, archiveSettings)
             }
         }
