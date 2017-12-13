@@ -2,7 +2,7 @@
     "sign": [
         {
             "certificate": "Microsoft402",
-            "strongName": "MsSharedLib72",
+            "strongName": null,
             "values": [
                 "bin/Microsoft.DotNet.Archive/netstandard1.3/Microsoft.DotNet.Archive.dll",
                 "bin/Microsoft.DotNet.Archive/netstandard1.3/*/Microsoft.DotNet.Archive.resources.dll"
