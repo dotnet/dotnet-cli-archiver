@@ -6,14 +6,13 @@
     <Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)build\NuGet.props"/>
-  <Import Project="$(MSBuildThisFileDirectory)build\Versions.props"/>
+  <Import Project="build\NuGet.props"/>
+  <Import Project="build\Versions.props"/>
 
   <PropertyGroup>
     <RepoRoot>$(MSBuildThisFileDirectory)</RepoRoot>
     <RepoToolsetDir>$(NuGetPackageRoot)roslyntools.repotoolset\$(RoslynToolsRepoToolsetVersion)\tools\</RepoToolsetDir>
-    <SignToolDataPath>$(RepoRoot)build\SignToolData.json</SignToolDataPath>
-    <VersionsPropsPath>$(RepoRoot)build\Versions.props</VersionsPropsPath>
+    <RestoreSources>https://dotnetfeed.blob.core.windows.net/dotnet-core/packages/index.json</RestoreSources>
   </PropertyGroup>
 
   <PropertyGroup>
