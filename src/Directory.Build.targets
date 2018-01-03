@@ -4,8 +4,4 @@
 
   <Import Project="$(RepoToolsetDir)Imports.targets" />
 
-  <PropertyGroup>
-    <PublicSign>false</PublicSign>
-  </PropertyGroup>
-
 </Project>
