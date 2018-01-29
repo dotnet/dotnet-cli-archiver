@@ -7,6 +7,13 @@
                 "bin/Microsoft.DotNet.Archive/netstandard1.3/Microsoft.DotNet.Archive.dll",
                 "bin/Microsoft.DotNet.Archive/netstandard1.3/*/Microsoft.DotNet.Archive.resources.dll"
             ]
+        },
+        {
+            "certificate": null,
+            "strongName": null,
+            "values": [
+                "packages/*.nupkg"
+            ]
         }
     ]
 }
