@@ -10,7 +10,7 @@ namespace Microsoft.DotNet.Archive
     {
         private string _currentPhase;
         private int _lastLineLength = 0;
-        private double _lastProgress = -1;
+        private long _lastProgress = -1;
         private Stopwatch _stopwatch;
         private object _stateLock = new object();
 
@@ -18,41 +18,47 @@ namespace Microsoft.DotNet.Archive
         {
             long progress = (long)(100 * ((double)value.Ticks / value.Total));
 
-            if (progress == _lastProgress && value.Phase == _currentPhase)
-            {
-                return;
-            }
-            _lastProgress = progress;
-
             lock (_stateLock)
             {
-                string line = $"{value.Phase} {progress}%";
-                if (value.Phase == _currentPhase)
+                if (progress == _lastProgress && value.Phase == _currentPhase)
                 {
-                    if (Console.IsOutputRedirected)
-                    {
-                        Console.Write($"...{progress}%");
-                    }
-                    else
-                    {
-                        Console.Write(new string('\b', _lastLineLength));
-                        Console.Write(line);
-                    }
+                    return;
+                }
 
-                    _lastLineLength = line.Length;
+                if (value.Phase != _currentPhase)
+                {
+                    Console.Write(value.Phase);
+                    Console.Write(" ");
+                    _currentPhase = value.Phase;
+                    _lastLineLength = 0;
+                    _stopwatch = Stopwatch.StartNew();
+                }
 
-                    if (progress == 100)
+                if (Console.IsOutputRedirected)
+                {
+                    var delta = (progress / 10) - ((_lastProgress == -1 ? 0 : _lastProgress) / 10);
+                    if (delta > 0)
                     {
-                        Console.WriteLine($" {_stopwatch.ElapsedMilliseconds} ms");
+                        Console.Write(new string('.', (int)delta));
                     }
                 }
                 else
                 {
-                    Console.Write(line);
-                    _currentPhase = value.Phase;
-                    _lastLineLength = line.Length;
-                    _stopwatch = Stopwatch.StartNew();
+                    var percentage = $"{progress}%";
+                    if (_lastLineLength > 0)
+                    {
+                        Console.Write(new string('\b', _lastLineLength));
+                    }
+                    Console.Write(percentage);
+                    _lastLineLength = percentage.Length;
                 }
+
+                if (progress == 100)
+                {
+                    Console.WriteLine($" {_stopwatch.ElapsedMilliseconds} ms");
+                }
+
+                _lastProgress = progress;
             }
         }
     }
