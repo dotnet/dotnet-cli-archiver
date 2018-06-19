@@ -408,12 +408,13 @@ namespace Microsoft.DotNet.Archive
         }
         public void AddDirectory(string sourceDirectory, IProgress<ProgressReport> progress, string destinationDirectory = null)
         {
-            var sourceFiles = Directory.EnumerateFiles(sourceDirectory, "*", SearchOption.AllDirectories).ToArray();
+            var sourceDirectoryTrimmed = sourceDirectory.TrimEnd(new []{ '\\', '/' });
+            var sourceFiles = Directory.EnumerateFiles(sourceDirectoryTrimmed, "*", SearchOption.AllDirectories).ToArray();
             int filesAdded = 0;
             sourceFiles.AsParallel().ForAll(sourceFile =>
                 {
                     // path relative to the destination/extracted directory to write the file
-                    string destinationRelativePath = sourceFile.Substring(sourceDirectory.Length + 1);
+                    string destinationRelativePath = sourceFile.Substring(sourceDirectoryTrimmed.Length + 1);
 
                     if (destinationDirectory != null)
                     {
@@ -431,7 +432,7 @@ namespace Microsoft.DotNet.Archive
                         AddFile(sourceFile, destinationRelativePath);
                     }
 
-                    progress.Report($"Adding {sourceDirectory}", Interlocked.Increment(ref filesAdded), sourceFiles.Length);
+                    progress.Report($"Adding {sourceDirectoryTrimmed}", Interlocked.Increment(ref filesAdded), sourceFiles.Length);
                 });
         }
 
