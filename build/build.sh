@@ -141,7 +141,7 @@ function InstallDotNetCli {
     if [ $LASTEXITCODE != 0 ]
     then
       echo "Failed to install stage0"
-      return $LASTEXITCODE
+      ExitWithExitCode $LASTEXITCODE
     fi
   fi
 
@@ -157,7 +157,7 @@ function InstallDotNetCli {
     if [ $LASTEXITCODE != 0 ]
     then
       echo "Failed to install 1.0 shared framework"
-      return $LASTEXITCODE
+      ExitWithExitCode $LASTEXITCODE
     fi
   fi
 
@@ -173,7 +173,7 @@ function InstallDotNetCli {
     if [ $LASTEXITCODE != 0 ]
     then
       echo "Failed to install 1.1 shared framework"
-      return $LASTEXITCODE
+      ExitWithExitCode $LASTEXITCODE
     fi
   fi
 
@@ -209,25 +209,16 @@ function InstallRepoToolset {
     if [ $LASTEXITCODE != 0 ]
     then
       echo "Failed to build $ToolsetProj"
-      return $LASTEXITCODE
+      ExitWithExitCode $LASTEXITCODE
     fi
   fi
 }
 
+
 function Build {
   InstallDotNetCli
 
-  if [ $? != 0 ]
-  then
-    return $?
-  fi
-
   InstallRepoToolset
-
-  if [ $? != 0 ]
-  then
-    return $?
-  fi
 
   if $prepareMachine
   then
@@ -238,7 +229,7 @@ function Build {
     if [ $LASTEXITCODE != 0 ]
     then
       echo "Failed to clear NuGet cache"
-      return $LASTEXITCODE
+      ExitWithExitCode $LASTEXITCODE
     fi
   fi
 
@@ -261,7 +252,7 @@ function Build {
   if [ $LASTEXITCODE != 0 ]
   then
     echo "Failed to build $RepoToolsetBuildProj"
-    return $LASTEXITCODE
+    ExitWithExitCode $LASTEXITCODE
   fi
 }
 
@@ -271,6 +262,13 @@ function StopProcesses {
   pkill -9 "vbcscompiler"
 }
 
+
+function ExitWithExitCode {
+  if [[ "$ci" == true && "$prepare_machine" == true ]]; then
+    StopProcesses
+  fi
+  exit $1
+}
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
   ScriptRoot="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
@@ -309,11 +307,3 @@ fi
 NuGetPackageRoot=$NUGET_PACKAGES
 
 Build
-LASTEXITCODE=$?
-
-if $ci && $prepareMachine
-then
-  StopProcesses
-fi
-
-exit $LASTEXITCODE
